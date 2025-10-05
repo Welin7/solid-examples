@@ -17,7 +17,7 @@ namespace SolidExamples.Violacoes
     {
         public static void Executar()
         {
-            Console.WriteLine("\n[ISP - Violação] - Segregação de Interface");
+            Console.WriteLine("\n[ISP - Violação - Segregação de Interface]");
             IImpressora impressora = new ImpressoraSimples();
             impressora.Imprimir();
             impressora.Escanear();

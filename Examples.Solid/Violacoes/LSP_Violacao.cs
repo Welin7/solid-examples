@@ -57,6 +57,7 @@ namespace SolidExamples.Violacoes
             Conta contaPoupanca = new ContaPoupanca();
             contaPoupanca.Depositar(2000);
 
+            // Mesmo tipo base, mas comportamento diferente — viola LSP
             try
             {
                 // Mesmo tipo base, mas comportamento diferente — viola LSP
@@ -67,7 +68,7 @@ namespace SolidExamples.Violacoes
                 Console.WriteLine($"Erro ao sacar na poupança: {ex.Message}");
             }
 
-            Console.WriteLine($"Saldo Conta Poupança: {contaPoupanca.ObterSaldo()}");
+            Console.WriteLine($"Saldo Conta Poupança: {contaPoupanca.ObterSaldo():C}");
         }
     }
 }

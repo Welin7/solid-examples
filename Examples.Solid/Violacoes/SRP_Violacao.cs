@@ -2,19 +2,19 @@ namespace SolidExamples.Violacoes
 {
     public interface IRelatorio
     {
-        void SalvarRelatorioEmPdf();
+        void SalvarRelatorio();
         void EnviarEmail();
     }
 
     // Violação: mesma classe salva e envia email
-    public class Relatorio : IRelatorio
+    public class RelatorioPDF : IRelatorio
     {
         public void EnviarEmail()
         {
             Console.WriteLine("Enviando email ao cliente...");
         }
 
-        public void SalvarRelatorioEmPdf()
+        public void SalvarRelatorio()
         {
            Console.WriteLine("Salvando relatório em PDF...");
         }
@@ -25,9 +25,12 @@ namespace SolidExamples.Violacoes
         public static void Executar()
         {
             Console.WriteLine("\n[SRP - Violação - Responsabilidade Única]");
-            IRelatorio relatorio = new Relatorio();
+            IRelatorio relatorio = new RelatorioPDF();
+
             relatorio.EnviarEmail();
-            relatorio.SalvarRelatorioEmPdf();
+            relatorio.SalvarRelatorio();
+
+            Console.WriteLine("");
             Console.WriteLine("A classe Relatorio tem mais de uma responsabilidade, dois motivos para mudar.");
             Console.WriteLine("Problema: se mudar o formato (ex: DOCX), precisaremos alterar a classe Relatorio.");
         }

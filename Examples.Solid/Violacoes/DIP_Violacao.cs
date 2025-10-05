@@ -33,7 +33,7 @@ namespace SolidExamples.Violacoes
 
             Console.WriteLine("Importante, O ponto é que a violação não quebra o programa imediatamente, ele roda normalmente.");
             Console.WriteLine("No entanto, quebra a flexibilidade ou extensibilidade.");
-            Console.ReadLine();
+            Console.WriteLine("");
             Console.WriteLine("Tentando mudar para SMS...");
             Console.WriteLine("Se você quiser usar SmsService, precisa alterar o código da classe Notificador.");
             Console.WriteLine("Problema: Notificador só funciona com Email, sem chance de mudar para Sms sem editar o código.");

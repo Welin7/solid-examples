@@ -37,6 +37,7 @@ public static class DIP_Correcao
 {
     public static void Executar()
     {
+        Console.WriteLine("\n[DIP - Correção - Inversão de Dependência]");
         // Aqui é o Composition Root
         INotificacao servico = new EmailService();
         var notificador = new Notificador(servico);
@@ -46,5 +47,11 @@ public static class DIP_Correcao
         servico = new SmsService();
         notificador = new Notificador(servico);
         notificador.Notificar("Mensagem via SMS");
+
+        Console.WriteLine("");
+        Console.WriteLine("A classe Notificador não depende mais de implementações concretas e sim da abstração.");
+        Console.WriteLine("Agora é fácil trocar o serviço de notificação sem alterar a classe Notificador.");
+        Console.WriteLine("Isso melhora a flexibilidade e a extensibilidade do código.");
+        Console.WriteLine("");
     }
 }
