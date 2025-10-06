@@ -30,12 +30,13 @@ namespace SolidExamples.Correcoes
     {
         public static void Executar()
         {
-            Console.WriteLine("\n[OCP - Correção]");
+            Console.WriteLine("\n[OCP - Correção - Princípio do Aberto/Fechado]");
             var calculadora = new Calculadora();
             Console.WriteLine($"Soma: {calculadora.RealizarCalculo(new Soma(), 10, 5)}");
             Console.WriteLine($"Subtração: {calculadora.RealizarCalculo(new Subtracao(), 10, 5)}");
             Console.WriteLine($"Multiplicação: {calculadora.RealizarCalculo(new Multiplicacao(), 10, 5)}");
             Console.WriteLine("Agora conseguimos estender (nova operação , criando a operação de divisão) sem mexer na Calculadora.");
+            Console.WriteLine("");
         }
     }
 }

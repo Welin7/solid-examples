@@ -36,7 +36,6 @@ public class ContaCorrente : IConta
 public class ContaPoupancaCorreta : IConta
 {
     private decimal _saldo;
-    private const decimal LimiteSaque = 1000m;
 
     public void Sacar(decimal valor)
     {
@@ -45,9 +44,6 @@ public class ContaPoupancaCorreta : IConta
 
         if (valor > _saldo)
             throw new InvalidOperationException("Saldo insuficiente.");
-
-        if (valor > LimiteSaque)
-            throw new InvalidOperationException("Limite de saque para conta poupança é de R$ 1000.");
 
         _saldo -= valor;
 
@@ -78,7 +74,7 @@ public static class LSP_Correcao
 
         IConta contaPoupanca = new ContaPoupancaCorreta();
         contaPoupanca.Depositar(2000);
-        contaPoupanca.Sacar(900);
+        contaPoupanca.Sacar(1500);
         Console.WriteLine($"Saldo Conta Poupança: {contaPoupanca.ObterSaldo():C}");
 
         Console.WriteLine("");

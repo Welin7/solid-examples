@@ -1,7 +1,13 @@
 namespace SolidExamples.Correcoes
 {
-    public interface IImpressora { void Imprimir(); }
-    public interface IScanner { void Escanear(); }
+    public interface IImpressora
+    {
+        void Imprimir();
+    }
+    public interface IScanner
+    {
+        void Escanear();
+    }
 
     public class ImpressoraPadrao : IImpressora
     {
@@ -19,15 +25,16 @@ namespace SolidExamples.Correcoes
         public static void Executar()
         {
             Console.WriteLine("\n[ISP - Correção - Segregação de Interface]");
-            IImpressora padrao = new ImpressoraPadrao();
-            padrao.Imprimir();
+            IImpressora impressoraPadrao = new ImpressoraPadrao();
+            impressoraPadrao.Imprimir();
 
-            IImpressora multinfuncional = new ImpressoraMultifuncional();
+            IImpressora impressoraMultinfuncional = new ImpressoraMultifuncional();
             IScanner scanner = new ImpressoraMultifuncional();
-            multinfuncional.Imprimir();
+            impressoraMultinfuncional.Imprimir();
             scanner.Escanear();
 
             Console.WriteLine("Agora cada classe só implementa o que faz sentido.");
+            Console.WriteLine("Problema resolvido: A ImpressoraPadrao não é forçada a implementar o método Escanear.");
             Console.WriteLine("");
         }
     }

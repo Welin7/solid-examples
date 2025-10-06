@@ -69,6 +69,11 @@ namespace SolidExamples.Violacoes
             }
 
             Console.WriteLine($"Saldo Conta Poupança: {contaPoupanca.ObterSaldo():C}");
+            Console.WriteLine("");
+            Console.WriteLine("Nota: ContaPoupanca altera o comportamento esperado do método Sacar, violando o LSP.");
+            Console.WriteLine("Problema: O método Sacar da ContaPoupanca restringe o comportamento da classe base Conta.");
+            Console.WriteLine("Um código que espera trabalhar com Conta vai falhar quando receber uma ContaPoupanca.");
+            Console.WriteLine("");
         }
     }
 }

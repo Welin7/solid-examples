@@ -6,8 +6,8 @@ namespace SolidExamples.Violacoes
         void Escanear();
     }
 
-    // Violação: impressora simples não escaneia, mas é obrigada a implementar o método Escanear
-    public class ImpressoraSimples : IImpressora
+    // Violação: impressora padrão não escaneia, mas é obrigada a implementar o método Escanear
+    public class ImpressoraPadrao : IImpressora
     {
         public void Imprimir() => Console.WriteLine("Imprimindo...");
         public void Escanear() => Console.WriteLine("Escanear Forçado: não deveria existir em uma impressora simples.");
@@ -18,11 +18,13 @@ namespace SolidExamples.Violacoes
         public static void Executar()
         {
             Console.WriteLine("\n[ISP - Violação - Segregação de Interface]");
-            IImpressora impressora = new ImpressoraSimples();
+            IImpressora impressora = new ImpressoraPadrao();
             impressora.Imprimir();
             impressora.Escanear();
-            Console.WriteLine("Impressora simples não escaneia, mas é obrigada a implementar o método Escanear.");
-            Console.WriteLine("Problema: Classe ImpressoraSimples usa métodos que não fazem sentido.");
+            Console.WriteLine("");
+            Console.WriteLine("Impressora padrão não escaneia, mas é obrigada a implementar o método Escanear.");
+            Console.WriteLine("Problema: Classe ImpressoraPadrao usa métodos que não fazem sentido.");
+            Console.WriteLine("");
         }
     }
 }

@@ -43,6 +43,7 @@ namespace SolidExamples.Correcoes
             Console.WriteLine("");
             Console.WriteLine("Classe Relatório salva o relatório em pdf e a classe Email envia o email para o cliente.");
             Console.WriteLine("Problema resolvido: Agora cada classe tem sua própria responsabilidade.");
+            Console.WriteLine("");
         }
     }
 }

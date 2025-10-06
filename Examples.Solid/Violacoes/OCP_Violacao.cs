@@ -25,8 +25,10 @@ namespace SolidExamples.Violacoes
             var calculadora = new Calculadora();
             Console.WriteLine($"Soma: {calculadora.RealizarCalculo(100, 100, "soma")}");
             Console.WriteLine($"Subtração: {calculadora.RealizarCalculo(150, 100, "subtrair")}");
+            Console.WriteLine("");
             Console.WriteLine("Para incluir novos tipos de operações, precisaremos alterar a classe Calculadora.");
             Console.WriteLine("Problema: não conseguimos multiplicar ou dividir sem mudar a classe Calculadora.");
+            Console.WriteLine("");
         }
     }
 }
