@@ -17,6 +17,9 @@ public class Conta
 
     public void Depositar(decimal valor)
     {
+        if (valor <= 0)
+            throw new ArgumentException("Depósito deve ser positivo.");
+
         Saldo += valor;
     }
 }
