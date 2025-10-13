@@ -1,64 +1,49 @@
-// Abstração mais adequada
-public interface IConta
-{
-    void Sacar(decimal valor);
-    void Depositar(decimal valor);
-    decimal ObterSaldo();
-}
+namespace SolidExamples.Correcoes;
 
-public class ContaCorrente : IConta
+public class Conta
 {
-    private decimal _saldo;
+    public decimal Saldo { get; protected set; }
 
-    public void Sacar(decimal valor)
+    public virtual void Sacar(decimal valor)
     {
         if (valor <= 0)
             throw new ArgumentException("O valor deve ser positivo.");
 
-        if (valor > _saldo)
+        if (valor > Saldo)
             throw new InvalidOperationException("Saldo insuficiente.");
 
-        _saldo -= valor;
-        Console.WriteLine($"[Conta Corrente] Saque de {valor:C} realizado. Saldo: {_saldo:C}");
+        Saldo -= valor;
     }
 
     public void Depositar(decimal valor)
     {
         if (valor <= 0)
-            throw new ArgumentException("O valor deve ser positivo.");
+            throw new ArgumentException("Depósito deve ser positivo.");
 
-        _saldo += valor;
+        Saldo += valor;
     }
-
-    public decimal ObterSaldo() => _saldo;
 }
 
-public class ContaPoupancaCorreta : IConta
+public class ContaEspecial : Conta
 {
-    private decimal _saldo;
+    public decimal LimiteCredito { get; }
 
-    public void Sacar(decimal valor)
+    public ContaEspecial(decimal limiteCredito)
+    {
+        LimiteCredito = limiteCredito;
+    }
+
+    public override void Sacar(decimal valor)
     {
         if (valor <= 0)
             throw new ArgumentException("O valor deve ser positivo.");
 
-        if (valor > _saldo)
-            throw new InvalidOperationException("Saldo insuficiente.");
+        // Mantém o contrato base: não permite ultrapassar saldo + limite
+        if (valor > Saldo + LimiteCredito)
+            throw new InvalidOperationException("Saldo insuficiente, mesmo com limite.");
 
-        _saldo -= valor;
-
-        Console.WriteLine($"[Conta Poupança] Saque de {valor:C} realizado. Saldo: {_saldo:C}");
+        Saldo -= valor; // pode ficar negativo, mas dentro do limite definido
     }
-
-    public void Depositar(decimal valor)
-    {
-        if (valor <= 0)
-            throw new ArgumentException("O valor deve ser positivo.");
-
-        _saldo += valor;
-    }
-
-    public decimal ObterSaldo() => _saldo;
 }
 
 public static class LSP_Correcao
@@ -67,20 +52,33 @@ public static class LSP_Correcao
     {
         Console.WriteLine("\n[LSP - Correção - Substituição de Liskov]");
 
-        IConta contaCorrente = new ContaCorrente();
-        contaCorrente.Depositar(2000);
-        contaCorrente.Sacar(1500);
-        Console.WriteLine($"Saldo Conta Corrente: {contaCorrente.ObterSaldo():C}");
-
-        IConta contaPoupanca = new ContaPoupancaCorreta();
-        contaPoupanca.Depositar(2000);
-        contaPoupanca.Sacar(1500);
-        Console.WriteLine($"Saldo Conta Poupança: {contaPoupanca.ObterSaldo():C}");
-
+        Conta conta = new Conta();
+        conta.Depositar(200);
+        conta.Sacar(120);
+        Console.WriteLine($"Saldo Conta Comum: {conta.Saldo}");
         Console.WriteLine("");
-        Console.WriteLine("Ambas as contas funcionam conforme esperado, respeitando suas regras específicas.");
-        Console.WriteLine("Herdar de uma classe base só faz sentido quando a subclasse mantém o mesmo comportamento esperado.");
-        Console.WriteLine("Se ela muda as regras, o mais correto é criar uma abstração separada (interface ou classe base diferente).");
+
+        ContaEspecial contaEspecial = new ContaEspecial(300);
+        contaEspecial.Depositar(200);
+        contaEspecial.Sacar(120); // Sacando mais que o saldo, mas dentro do limite
+        Console.WriteLine($"Saldo Conta Especial após saque: {contaEspecial.Saldo}");
+        Console.WriteLine("");
+
+        try
+        {
+            contaEspecial.Sacar(500); // Tentando sacar além do limite (saldo + limite)
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine($"Erro ao sacar da Conta Especial: {ex.Message}");
+            Console.WriteLine("");
+        }
+
+        Console.WriteLine("Nota: Conta Especial mantém o contrato do método Sacar, respeitando as regras da classe base.");
+        Console.WriteLine("Problema resolvido: O sistema entende que Saldo pode ficar negativo, mas apenas até o limite de crédito.");
+        Console.WriteLine("Conta Especial exige que o valor a sacar seja positivo, assim com na classe base.");
+        Console.WriteLine("Assim, qualquer código que funcione com Conta também funcionará com Conta Especial.");        
         Console.WriteLine("");
     }
 }
+
