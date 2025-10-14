@@ -30,8 +30,8 @@ namespace SolidExamples.Violacoes
             Console.WriteLine("\n[DIP - Violação - Inversão de Dependência]");
             var notificador = new Notificador();
             notificador.Notificar("Mensagem via Email");
-            Console.WriteLine("Tentando mudar para SMS...");
-
+            Console.WriteLine("");
+            
             Console.WriteLine("Importante, O ponto é que a violação não quebra o programa imediatamente, ele roda normalmente.");
             Console.WriteLine("No entanto, quebra a flexibilidade ou extensibilidade.");
             Console.WriteLine("");
