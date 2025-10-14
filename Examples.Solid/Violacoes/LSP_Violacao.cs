@@ -1,37 +1,30 @@
 namespace SolidExamples.Violacoes;
 
-public class Conta
+public class CalculadoraPadrao
 {
-    public decimal Saldo { get; protected set; }
-
-    public virtual void Sacar(decimal valor)
+    public virtual int Somar(int a, int b)
     {
-        if (valor <= 0)
-            throw new ArgumentException("O valor deve ser positivo.");
+        int resultado = a + b;
 
-        if (valor > Saldo)
-            throw new InvalidOperationException("Saldo insuficiente.");
-
-        Saldo -= valor; // Invariância: Saldo nunca pode ser negativo
-    }
-
-    public void Depositar(decimal valor)
-    {
-        if (valor <= 0)
-            throw new ArgumentException("Depósito deve ser positivo.");
-
-        Saldo += valor;
+        // Pós-condição: resultado deve ser a + b
+        return resultado;
     }
 }
 
-public class ContaEspecial : Conta
+public class CalculadoraLimitada : CalculadoraPadrao
 {
-    public override void Sacar(decimal valor)
+    public override int Somar(int a, int b)
     {
-        // Viola a invariância: agora o saldo pode ficar negativo
-        Saldo -= valor;
+        int resultado = a + b;
+
+        // Pós-condição enfraquecida: se o resultado > 120, corta pra 100
+        if (resultado > 120)
+            resultado = 120;
+
+        return resultado;
     }
 }
+
 
 public static class LSP_Violacao
 {
@@ -39,22 +32,20 @@ public static class LSP_Violacao
     {
         Console.WriteLine("\n[LSP - Violação - Substituição de Liskov]");
 
-        Conta conta = new Conta();
-        conta.Depositar(1000);
-        conta.Sacar(500);
-        Console.WriteLine($"Saldo Conta Comum: {conta.Saldo}");
+        CalculadoraPadrao calculadoraPadrao = new CalculadoraPadrao();
+        calculadoraPadrao.Somar(70, 60); // 130
+        Console.WriteLine($"Calculadora Padrão: = {calculadoraPadrao.Somar(70, 60)}");
         Console.WriteLine("");
 
-        Conta contaEspecial = new ContaEspecial();
-        contaEspecial.Depositar(-200);
-        contaEspecial.Sacar(500); // Aqui o saldo fica negativo, violando a expectativa
-        Console.WriteLine($"Saldo Conta Especial: {contaEspecial.Saldo}");
+        CalculadoraPadrao calculadoraLimitada = new CalculadoraLimitada();
+        calculadoraLimitada.Somar(70, 60); // 130
+        Console.WriteLine($"Calculadora Limitada: = {calculadoraLimitada.Somar(70, 60)}");
         Console.WriteLine("");
-
-        Console.WriteLine("Nota: Conta Especial altera o comportamento esperado do método Sacar, violando o LSP.");
-        Console.WriteLine("Problema: O método Sacar da Conta Especial restringe o comportamento da classe base Conta.");
-        Console.WriteLine("Um código que espera trabalhar com Conta vai falhar quando receber uma Conta Especial.");
-        Console.WriteLine("Conta Especial permite saldo negativo e permite sacar um valor maior que o saldo.");
+        
+        Console.WriteLine("Problema: a CalculadoraLimitada não respeita o contrato da CalculadoraPadrao.");
+        Console.WriteLine("A subclasse enfraquece o contrato, ela retorna outro valor (limitado a 120).");
+        Console.WriteLine("Isso viola o LSP e também o OCP (Principio Aberto/Fechado),"); 
+        Console.WriteLine("pois altera comportamento em vez de estender de forma segura.");
         Console.WriteLine("");
     }
 }

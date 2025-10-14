@@ -1,50 +1,39 @@
 namespace SolidExamples.Correcoes;
 
-public class Conta
+public interface ICalculadoraPadrao
 {
-    public decimal Saldo { get; protected set; }
+    int Somar(int a, int b);
+}
 
-    public virtual void Sacar(decimal valor)
+
+public class CalculadoraPadrao : ICalculadoraPadrao
+{
+    public int Somar(int a, int b)
     {
-        if (valor <= 0)
-            throw new ArgumentException("O valor deve ser positivo.");
-
-        if (valor > Saldo)
-            throw new InvalidOperationException("Saldo insuficiente.");
-
-        Saldo -= valor;
-    }
-
-    public void Depositar(decimal valor)
-    {
-        if (valor <= 0)
-            throw new ArgumentException("Depósito deve ser positivo.");
-
-        Saldo += valor;
+        return a + b;
     }
 }
 
-public class ContaEspecial : Conta
+public class CalculadoraLimitada : ICalculadoraPadrao
 {
-    public decimal LimiteCredito { get; }
+    private readonly ICalculadoraPadrao _calculadoraPadrao;
+    private readonly int _limite;
 
-    public ContaEspecial(decimal limiteCredito)
+    public CalculadoraLimitada(ICalculadoraPadrao calculadoraPadrao, int limite)
     {
-        LimiteCredito = limiteCredito;
+        _calculadoraPadrao = calculadoraPadrao;
+        _limite = limite;
     }
 
-    public override void Sacar(decimal valor)
+    public int Somar(int a, int b)
     {
-        if (valor <= 0)
-            throw new ArgumentException("O valor deve ser positivo.");
+        int resultado = _calculadoraPadrao.Somar(a, b);
 
-        // Mantém o contrato base: não permite ultrapassar saldo + limite
-        if (valor > Saldo + LimiteCredito)
-            throw new InvalidOperationException("Saldo insuficiente, mesmo com limite.");
-
-        Saldo -= valor; // pode ficar negativo, mas dentro do limite definido
+        // Extensão do comportamento — sem quebrar contrato
+        return resultado > _limite ? _limite : resultado;
     }
 }
+
 
 public static class LSP_Correcao
 {
@@ -52,32 +41,17 @@ public static class LSP_Correcao
     {
         Console.WriteLine("\n[LSP - Correção - Substituição de Liskov]");
 
-        Conta conta = new Conta();
-        conta.Depositar(200);
-        conta.Sacar(120);
-        Console.WriteLine($"Saldo Conta Comum: {conta.Saldo}");
+        ICalculadoraPadrao calculadoraPadrao = new CalculadoraPadrao();
+        Console.WriteLine($"Calculadora Padrão: = {calculadoraPadrao.Somar(70, 60)}");
         Console.WriteLine("");
 
-        ContaEspecial contaEspecial = new ContaEspecial(300);
-        contaEspecial.Depositar(200);
-        contaEspecial.Sacar(120); // Sacando mais que o saldo, mas dentro do limite
-        Console.WriteLine($"Saldo Conta Especial após saque: {contaEspecial.Saldo}");
+        ICalculadoraPadrao calculadoraLimitada = new CalculadoraLimitada(calculadoraPadrao, 100);
+        Console.WriteLine($"Calculadora Limitada: = {calculadoraLimitada.Somar(70, 60)}");
         Console.WriteLine("");
-
-        try
-        {
-            contaEspecial.Sacar(500); // Tentando sacar além do limite (saldo + limite)
-        }
-        catch (Exception ex)
-        {
-            Console.WriteLine($"Erro ao sacar da Conta Especial: {ex.Message}");
-            Console.WriteLine("");
-        }
-
-        Console.WriteLine("Nota: Conta Especial mantém o contrato do método Sacar, respeitando as regras da classe base.");
-        Console.WriteLine("Problema resolvido: O sistema entende que Saldo pode ficar negativo, mas apenas até o limite de crédito.");
-        Console.WriteLine("Conta Especial exige que o valor a sacar seja positivo, assim com na classe base.");
-        Console.WriteLine("Assim, qualquer código que funcione com Conta também funcionará com Conta Especial.");        
+        Console.WriteLine("O contrato da CalculadoraPadrao permanece inalterado, somar sempre retorna a + b");
+        Console.WriteLine("CalculadoraLimitada adiciona comportamento extra sem quebrar o que já existe");
+        Console.WriteLine("Isso respeita o LSP (substituição segura), OCP (aberta à extensão, fechada à modificação)");
+        Console.WriteLine("e também o SRP (cada classe com sua responsabilidade clara)");
         Console.WriteLine("");
     }
 }
