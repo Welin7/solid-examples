@@ -38,7 +38,7 @@ public static class DIP_Correcao
     public static void Executar()
     {
         Console.WriteLine("\n[DIP - Correção - Inversão de Dependência]");
-        // Aqui é o Composition Root
+        
         INotificacao servicoEmail = new EmailService();
         var notificador = new Notificador(servicoEmail);
         notificador.Notificar("Mensagem via Email");
