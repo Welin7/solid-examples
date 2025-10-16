@@ -17,7 +17,7 @@ public class CalculadoraLimitada : CalculadoraPadrao
     {
         int resultado = a + b;
 
-        // Pós-condição enfraquecida: se o resultado > 120, corta pra 100
+        // Pós-condição enfraquecida: se o resultado > 120, retorna 120
         if (resultado > 120)
             resultado = 120;
 
