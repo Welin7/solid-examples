@@ -29,9 +29,10 @@ namespace SolidExamples.Correcoes
             impressoraPadrao.Imprimir();
 
             IImpressora impressoraMultinfuncional = new ImpressoraMultifuncional();
-            IScanner scanner = new ImpressoraMultifuncional();
+            IScanner impressoraMultifuncionalScanner = new ImpressoraMultifuncional();
+            
             impressoraMultinfuncional.Imprimir();
-            scanner.Escanear();
+            impressoraMultifuncionalScanner.Escanear();
 
             Console.WriteLine("Agora cada classe só implementa o que faz sentido.");
             Console.WriteLine("Problema resolvido: A ImpressoraPadrao não é forçada a implementar o método Escanear.");
