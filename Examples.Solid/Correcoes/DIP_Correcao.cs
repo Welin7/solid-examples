@@ -39,13 +39,13 @@ public static class DIP_Correcao
     {
         Console.WriteLine("\n[DIP - Correção - Inversão de Dependência]");
         // Aqui é o Composition Root
-        INotificacao servico = new EmailService();
-        var notificador = new Notificador(servico);
+        INotificacao servicoEmail = new EmailService();
+        var notificador = new Notificador(servicoEmail);
         notificador.Notificar("Mensagem via Email");
 
         // Trocar implementação sem mexer na classe Notificador
-        servico = new SmsService();
-        notificador = new Notificador(servico);
+        INotificacao servicoSms = new SmsService();
+        notificador = new Notificador(servicoSms);
         notificador.Notificar("Mensagem via SMS");
 
         Console.WriteLine("");
