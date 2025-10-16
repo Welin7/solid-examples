@@ -9,8 +9,8 @@ SRP_Violacao.Executar();
 // ISP_Violacao.Executar();
 // DIP_Violacao.Executar();
 
-Console.WriteLine("\n=== EXEMPLOS CORRIGIDOS COM SOLID ===");
-SRP_Correcao.Executar();
+// Console.WriteLine("\n=== EXEMPLOS CORRIGIDOS COM SOLID ===");
+// SRP_Correcao.Executar();
 // OCP_Correcao.Executar();
 // LSP_Correcao.Executar();
 // ISP_Correcao.Executar();
