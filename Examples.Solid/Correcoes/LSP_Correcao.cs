@@ -5,7 +5,6 @@ public interface ICalculadoraPadrao
     int Somar(int a, int b);
 }
 
-
 public class CalculadoraPadrao : ICalculadoraPadrao
 {
     public int Somar(int a, int b)
@@ -48,6 +47,7 @@ public static class LSP_Correcao
         ICalculadoraPadrao calculadoraLimitada = new CalculadoraLimitada(calculadoraPadrao, 100);
         Console.WriteLine($"Calculadora Limitada: = {calculadoraLimitada.Somar(70, 60)}");
         Console.WriteLine("");
+        
         Console.WriteLine("O contrato da CalculadoraPadrao permanece inalterado, somar sempre retorna a + b");
         Console.WriteLine("CalculadoraLimitada adiciona comportamento extra sem quebrar o que já existe");
         Console.WriteLine("Isso respeita o LSP (substituição segura), OCP (aberta à extensão, fechada à modificação)");

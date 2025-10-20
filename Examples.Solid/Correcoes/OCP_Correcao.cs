@@ -32,9 +32,14 @@ namespace SolidExamples.Correcoes
         {
             Console.WriteLine("\n[OCP - Correção - Princípio do Aberto/Fechado]");
             var calculadora = new Calculadora();
-            Console.WriteLine($"Soma: {calculadora.RealizarCalculo(new Soma(), 10, 5)}");
-            Console.WriteLine($"Subtração: {calculadora.RealizarCalculo(new Subtracao(), 10, 5)}");
-            Console.WriteLine($"Multiplicação: {calculadora.RealizarCalculo(new Multiplicacao(), 10, 5)}");
+            
+            IOperacao soma = new Soma();
+            IOperacao subtracao = new Subtracao();
+            IOperacao multiplicacao = new Multiplicacao();
+            
+            Console.WriteLine($"Soma: {calculadora.RealizarCalculo(soma, 10, 5)}");
+            Console.WriteLine($"Subtração: {calculadora.RealizarCalculo(subtracao, 10, 5)}");
+            Console.WriteLine($"Multiplicação: {calculadora.RealizarCalculo(multiplicacao, 10, 5)}");
             Console.WriteLine("");            
             Console.WriteLine("Agora conseguimos estender (nova operação) sem mexer na Calculadora.");
             Console.WriteLine("");

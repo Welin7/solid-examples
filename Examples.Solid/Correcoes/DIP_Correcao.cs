@@ -30,8 +30,7 @@ public class Notificador
         _notificacao.Enviar(msg);
     }
 }
-
-// Camada de composição (fora da lógica de negócio). 
+ 
 // Em um sistema real, isso seria substituído por um container de injeção de dependência (como o IServiceProvider).
 public static class DIP_Correcao
 {
